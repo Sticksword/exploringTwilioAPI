@@ -17,11 +17,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+import phoneBuzzLendUp.views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # Here we add our Twilio URLs
-    url(r'^', 'phoneBuzzLendUp.views.home'),
-    url(r'^sms/$', 'phoneBuzzLendUp.views.sms'),
-    url(r'^ring/$', 'phoneBuzzLendUp.views.ring'),
+    url(r'^call_someone/$', phoneBuzzLendUp.views.call_someone),
+    url(r'^sms/$', phoneBuzzLendUp.views.sms),
+    url(r'^ring/$', phoneBuzzLendUp.views.ring),
+    url(r'^respond/$', phoneBuzzLendUp.views.handle_response)
 ]
