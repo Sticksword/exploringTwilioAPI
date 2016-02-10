@@ -1,26 +1,42 @@
 import os
+import sched, time
 
 # third party imports
+from django.http import HttpResponse
 from django_twilio.decorators import twilio_view
 from twilio.rest import TwilioRestClient
 from twilio.twiml import Response
 from rest_framework import status
-from rest_framework.response import Response as reply
-from rest_framework.decorators import api_view
 
 # local imports
+from settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN # WHY WON'T YOU IMPORT :(
+from api import *
+s = sched.scheduler(time.time, time.sleep)
 
 
-@api_view(['GET', 'POST'])
 def call_someone(request):
+    to_number = request.GET['to_number']
+    time_delay = int(request.GET['time_delay'])
+    s.enter(time_delay, 1, make_call, (to_number, time_delay))
+    print s.queue
+    s.run()
+    print s.queue
+    return HttpResponse("Great success! Your call has been placed in queue.", status=status.HTTP_200_OK)
+
+
+def make_call(to_number, time_delay=0):
     account_sid = "ACc1819dbc489da5fae3d3506847e06ed3"
     auth_token = "2f238a6ad9f1670f888dbde2337d4101"
     client = TwilioRestClient(account=account_sid, token=auth_token)
 
-    call = client.calls.create(url="http://79b2b7dd.ngrok.io/ring/",
-        to="+15713869605",
-        from_="+15712817232")
-    return reply('Call placed! Please hold.', status=status.HTTP_200_OK)
+    to_number = "+" + str(to_number)
+    try:
+        call = client.calls.create(url="http://79b2b7dd.ngrok.io/ring/",
+                                   to=to_number,
+                                   from_="+15712817232")
+        save_call_record(to_number, call.sid, "+15712817232", time_delay)
+    except Exception as e:
+        print "An error has occurred in 'make_call()'."
 
 
 @twilio_view
@@ -49,7 +65,7 @@ def ring(request):
 def handle_response(request):
 
     digits = request.POST.get('Digits', '')
-    calling_to = request.POST.get('To', '')
+    to_number = request.POST.get('To', '')
     call_sid = request.POST.get('CallSid', '')
     twilio_response = Response()
 
@@ -64,6 +80,7 @@ def handle_response(request):
     #     twilio_response.sms('You looking lovely today!', to=number)
 
     twilio_response.say(return_message)
+    update_call_record(to_number, call_sid, str(digits))
     twilio_response.redirect('/ring/')
     return twilio_response
 
