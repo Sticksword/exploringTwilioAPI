@@ -9,7 +9,7 @@ from twilio.twiml import Response
 from rest_framework import status
 
 # local imports
-from settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN # WHY WON'T YOU IMPORT :(
+from settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 from api import *
 s = sched.scheduler(time.time, time.sleep)
 
@@ -29,14 +29,46 @@ def make_call(to_number, time_delay=0):
     auth_token = "2f238a6ad9f1670f888dbde2337d4101"
     client = TwilioRestClient(account=account_sid, token=auth_token)
 
-    to_number = "+" + str(to_number)
+    to_number = "+1" + str(to_number)
+    print to_number
     try:
-        call = client.calls.create(url="http://79b2b7dd.ngrok.io/ring/",
+        call = client.calls.create(url="http://2b464093.ngrok.io/ring/",
                                    to=to_number,
                                    from_="+15712817232")
+        print call
         save_call_record(to_number, call.sid, "+15712817232", time_delay)
     except Exception as e:
         print "An error has occurred in 'make_call()'."
+
+
+def previous_call(request):
+    call_id = request.GET['id']
+    call_object = Calls.objects.get(pk = call_id)
+    to_number = call_object.to_number
+    digits_entered = call_object.digits_entered
+    print 'in previous call func', to_number, digits_entered
+    client = TwilioRestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
+    try:
+        call = client.calls.create(to=to_number,
+                                   from_="+15712817232",
+                                   url="http://2b464093.ngrok.io/replay/?digits="+str(digits_entered))
+        return HttpResponse('Dialing previous call successful!')
+    except Exception as e:
+        return HttpResponse('ERROR dialing previous call.')
+
+
+@twilio_view
+def handle_replay_message(request):
+    digits = request.GET['digits']
+    print 'through replay',digits
+
+    msg = get_fizzbuzz_message(int(digits))
+
+    twilio_response = Response()
+    twilio_response.say(msg)
+
+    return twilio_response
 
 
 @twilio_view
