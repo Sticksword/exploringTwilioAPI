@@ -1,12 +1,11 @@
-import os
-import sched, time
+# standard library imports
+import sched
+import time
 
 # third party imports
-from django.http import HttpResponse
 from django_twilio.decorators import twilio_view
 from twilio.rest import TwilioRestClient
 from twilio.twiml import Response
-from rest_framework import status
 
 # local imports
 from settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
@@ -21,7 +20,7 @@ def call_someone(request):
     print s.queue
     s.run()
     print s.queue
-    return HttpResponse("Great success! Your call has been placed in queue.", status=status.HTTP_200_OK)
+    return HttpResponse("Great success! Your call has been placed in queue.")
 
 
 def make_call(to_number, time_delay=0):
@@ -41,9 +40,9 @@ def make_call(to_number, time_delay=0):
         print "An error has occurred in 'make_call()'."
 
 
-def previous_call(request):
+def make_previous_call(request):
     call_id = request.GET['id']
-    call_object = Calls.objects.get(pk = call_id)
+    call_object = Calls.objects.get(pk=call_id)
     to_number = call_object.to_number
     digits_entered = call_object.digits_entered
     print 'in previous call func', to_number, digits_entered
@@ -85,7 +84,7 @@ def sms(request):
 def ring(request):
     twilio_response = Response()
     message = 'Welcome to Fizz Buzz! Press up to three digits to start playing.'
-    with twilio_response.gather(action='/respond/', numDigits=3) as g:
+    with twilio_response.gather(action='/response/', numDigits=3) as g:
         g.say(message)
         g.pause(length=1.5)
         g.say(message)
@@ -94,7 +93,7 @@ def ring(request):
 
 
 @twilio_view
-def handle_response(request):
+def handle_response_message(request):
 
     digits = request.POST.get('Digits', '')
     to_number = request.POST.get('To', '')

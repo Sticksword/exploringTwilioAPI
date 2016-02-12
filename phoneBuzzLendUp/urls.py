@@ -22,9 +22,23 @@ import phoneBuzzLendUp.views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    # Here we add our Twilio URLs
+    # making calls
     url(r'^call_someone/$', phoneBuzzLendUp.views.call_someone),
+    url(r'^make_previous_call/$', phoneBuzzLendUp.views.make_previous_call),
+
+    # SMS response endpoint (did for funsies)
     url(r'^sms/$', phoneBuzzLendUp.views.sms),
+
+    # call response endpoint
     url(r'^ring/$', phoneBuzzLendUp.views.ring),
-    url(r'^respond/$', phoneBuzzLendUp.views.handle_response)
+
+    # handling call response endpoint
+    url(r'^response/$', phoneBuzzLendUp.views.handle_response_message),
+
+    # replay response endpoint
+    url(r'^replay/?$', phoneBuzzLendUp.views.handle_replay_message),
+
+    # get past call history
+    url(r'^get_previous_calls/', phoneBuzzLendUp.views.get_previous_calls),
+
 ]
