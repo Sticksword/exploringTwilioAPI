@@ -6,9 +6,10 @@ import time
 from django_twilio.decorators import twilio_view
 from twilio.rest import TwilioRestClient
 from twilio.twiml import Response
+from django.http import HttpResponse
 
 # local imports
-from settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
+from settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN # gotta put into bash profile and restart laptop
 from api import *
 s = sched.scheduler(time.time, time.sleep)
 

@@ -1,6 +1,5 @@
 from django.core import serializers
 from models import Calls
-from django.http import HttpResponse
 
 
 def save_call_record(to_number, call_sid, from_number=None, time_delay=0):
