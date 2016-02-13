@@ -22,22 +22,22 @@ ngrok server url will have to be put in 2 locations:
 ## Endpoints:
 
 ### Making calls
-* /call_someone/
-* /make_previous_call/
+* /call_someone/ (phases 1-3)
+* /make_previous_call/ (phase 4)
 
 ### SMS (did this for fun, put in repo b/c why not)
 * /sms/
 
 ### Call response 
-* /ring/
+* /ring/ (phases 1-3)
 
 ### Handling call response
-* /response/
+* /response/ (phases 1-3)
 
 ### Replay response
-* /replay/
+* /replay/ (phase 4)
 
 ### Get past call history
-* /get_previous_calls/
+* /get_previous_calls/ (phase 4)
 
 
