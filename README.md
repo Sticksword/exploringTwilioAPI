@@ -10,11 +10,11 @@ ngrok server url will have to be put in 2 locations:
 * angular app requests
 * django views
 
-requirements have to be downloaded and can be found in requirements.txt
-twilio==5.3.0
-django-twilio==0.8.0
-Django==1.9
-if I am missing any, please let me know! 
+## Requirements have to be downloaded and can be found in requirements.txt
+* twilio==5.3.0
+* django-twilio==0.8.0
+* Django==1.9
+* If I am missing any, please let me know! I have them installed locally but may have forgotten to put here.
 
 ## Endpoints:
 
