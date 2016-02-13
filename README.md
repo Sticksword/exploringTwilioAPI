@@ -9,7 +9,8 @@ This is my Django project where I'm both doing a technical coding challenge as w
 * If I am missing any, please let me know! I have them installed locally but may have forgotten to put here.
 
 Install requirements via: `sudo pip install -r requirements.txt`
-Run `python manage.py runserver` // sets up server on port 8000
+
+Run `python manage.py runserver`
 
 Tested live using ngrok
 `ngrok http 8000`
