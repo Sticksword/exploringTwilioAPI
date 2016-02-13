@@ -10,6 +10,8 @@ This is my Django project where I'm both doing a technical coding challenge as w
 
 Install requirements via: `sudo pip install -r requirements.txt`
 
+Run `python manage.py migrate`
+
 Run `python manage.py runserver`
 
 Tested live using ngrok
