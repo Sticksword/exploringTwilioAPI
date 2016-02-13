@@ -2,6 +2,19 @@ from django.core import serializers
 from models import Calls
 
 
+def get_fizzbuzz_message(number):
+    return_message = ""
+    if number % 5 == 0 and number % 3 == 0:
+        return_message = "Fizz Buzz "
+    elif number % 5 == 0:
+        return_message = "Buzz "
+    elif number % 3 == 0:
+        return_message = "Fizz "
+    else:
+        return_message = str(number) + " "
+    return return_message
+
+
 def save_call_record(to_number, call_sid, from_number=None, time_delay=0):
     try:
         call_record = Calls(to_number=to_number, call_sid=call_sid, from_number=from_number, time_delay=time_delay)

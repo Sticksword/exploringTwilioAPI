@@ -122,16 +122,3 @@ def handle_response_message(request):
     twilio_response.redirect('/ring/')
     return twilio_response
 
-
-def get_fizzbuzz_message(number):
-    return_message = ""
-    if number % 5 == 0 and number % 3 == 0:
-        return_message = "Fizz Buzz "
-    elif number % 5 == 0:
-        return_message = "Buzz "
-    elif number % 3 == 0:
-        return_message = "Fizz "
-    else:
-        return_message = str(number) + " "
-    return return_message
-
