@@ -26,12 +26,14 @@ def call_someone(request):
 def make_call(to_number, time_delay=0):
     account_sid = "ACc1819dbc489da5fae3d3506847e06ed3"
     auth_token = "2f238a6ad9f1670f888dbde2337d4101"
+    # account_sid = TWILIO_ACCOUNT_SID
+    # auth_token = TWILIO_AUTH_TOKEN
     client = TwilioRestClient(account=account_sid, token=auth_token)
 
     to_number = "+1" + str(to_number)
     print to_number
     try:
-        call = client.calls.create(url="http://2b464093.ngrok.io/ring/",
+        call = client.calls.create(url="http://4bff4f94.ngrok.io/ring/",
                                    to=to_number,
                                    from_="+15712817232")
         print call
@@ -45,28 +47,33 @@ def make_previous_call(request):
     call_object = Calls.objects.get(pk=call_id)
     to_number = call_object.to_number
     digits_entered = call_object.digits_entered
-    print 'in previous call func', to_number, digits_entered
-    client = TwilioRestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+    account_sid = "ACc1819dbc489da5fae3d3506847e06ed3"
+    auth_token = "2f238a6ad9f1670f888dbde2337d4101"
+    client = TwilioRestClient(account_sid, auth_token)
 
     try:
         call = client.calls.create(to=to_number,
                                    from_="+15712817232",
-                                   url="http://2b464093.ngrok.io/replay/?digits="+str(digits_entered))
+                                   url="http://4bff4f94.ngrok.io/replay/?digits="+str(digits_entered))
+        save_call_record(to_number, call.sid, "+15712817232")
+        update_call_record(to_number, call.sid, digits_entered)
         return HttpResponse('Dialing previous call successful!')
     except Exception as e:
         return HttpResponse('ERROR dialing previous call.')
 
 
+def get_previous_calls(request):
+    data = get_all_previous_calls()
+    return HttpResponse(data, content_type="application/json")
+
+
 @twilio_view
 def handle_replay_message(request):
     digits = request.GET['digits']
-    print 'through replay',digits
-
     msg = get_fizzbuzz_message(int(digits))
 
     twilio_response = Response()
     twilio_response.say(msg)
-
     return twilio_response
 
 
@@ -88,7 +95,6 @@ def ring(request):
         g.say(message)
         g.pause(length=1.5)
         g.say(message)
-
     return twilio_response
 
 

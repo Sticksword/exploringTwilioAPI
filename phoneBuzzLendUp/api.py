@@ -7,7 +7,7 @@ def save_call_record(to_number, call_sid, from_number=None, time_delay=0):
     try:
         call_record = Calls(to_number=to_number, call_sid=call_sid, from_number=from_number, time_delay=time_delay)
         call_record.save()
-        print call_record.id,' record saved!'
+        print call_record.id, ' record saved!'
     except Exception as e:
         print 'exception in saving call record, ', e
 
@@ -23,3 +23,9 @@ def update_call_record(to_number, call_sid, digits):
         print call_record.id, 'record updated with digits pressed'
     except Exception as e:
         print 'exception in updating call record', e
+
+
+def get_all_previous_calls():
+    past_calls = Calls.objects.all()
+    past_calls = serializers.serialize("json", past_calls)
+    return past_calls
