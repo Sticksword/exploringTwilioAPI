@@ -17,17 +17,23 @@ Django==1.9
 if I am missing any, please let me know! 
 
 ## Endpoints:
+
 ### Making calls
 * /sss
 * /asdasd
+
 ### SMS
 * /sdasd
+
 ### Call response 
 * /sadasd
+
 ### Handling call response
 * /asdasd
+
 ### Replay response
 * /asd
+
 ### Get past call history
 * /
 
