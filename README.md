@@ -16,15 +16,19 @@ django-twilio==0.8.0
 Django==1.9
 if I am missing any, please let me know! 
 
-endpoints:
-
+## Endpoints:
+### Making calls
 * /sss
 * /asdasd
+### SMS
 * /sdasd
+### Call response 
 * /sadasd
+### Handling call response
 * /asdasd
-* /asdasd
+### Replay response
 * /asd
-* /asd
+### Get past call history
+* /
 
 
