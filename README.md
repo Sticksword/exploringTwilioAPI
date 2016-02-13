@@ -3,6 +3,7 @@
 This is my Django project where I'm both doing a technical coding challenge as well as explore some of the other functionalities of the Twilio API.
 
 Run 'python manage.py runserver' // sets up server on port 8000
+
 Tested with ngrok
 'ngrok http 8000'
 
@@ -19,22 +20,22 @@ ngrok server url will have to be put in 2 locations:
 ## Endpoints:
 
 ### Making calls
-* /sss
-* /asdasd
+* /call_someone/
+* /make_previous_call/
 
-### SMS
-* /sdasd
+### SMS (did this for fun, put in repo b/c why not)
+* /sms/
 
 ### Call response 
-* /sadasd
+* /ring/
 
 ### Handling call response
-* /asdasd
+* /response/
 
 ### Replay response
-* /asd
+* /replay/
 
 ### Get past call history
-* /
+* /get_previous_calls/
 
 
